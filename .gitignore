@@ -1,0 +1,17 @@
+# Metadados do Windows/WSL (Zone Identifier)
+*:Zone.Identifier
+
+# Claude Code (instruções internas)
+CLAUDE.md
+.claude/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
