@@ -89,7 +89,7 @@
     .label-tag {
       font-family: var(--font-body);
       font-weight: 200;
-      font-size: 9.5px;
+      font-size: 11px;
       letter-spacing: 0.28em;
       text-transform: uppercase;
       color: var(--deep-rose);
@@ -107,7 +107,7 @@
       gap: 10px;
       font-family: var(--font-body);
       font-weight: 300;
-      font-size: 10px;
+      font-size: 11.5px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       transition: background 0.35s var(--ease), color 0.35s var(--ease),
@@ -195,16 +195,18 @@
       justify-content: center;
       gap: 6px;
       padding: 10px 24px 9px;
-      background: rgba(253, 250, 249, 0.92);
+      background: rgba(248, 245, 242, 0.75);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid transparent;
-      transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+      transition: background 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
     }
 
     .header.scrolled {
+      background: rgba(248, 245, 242, 0.85);
       border-bottom-color: rgba(242, 204, 201, 0.55);
-      box-shadow: 0 1px 24px rgba(166, 70, 119, 0.06);
+      box-shadow: 0 4px 30px rgba(166, 70, 119, 0.08);
+      /* Sombra mais refinada no glassmorphism */
     }
 
     .header__logo {
@@ -222,7 +224,7 @@
     .header__nav a {
       font-family: var(--font-body);
       font-weight: 200;
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: 0.28em;
       text-transform: uppercase;
       color: var(--plum);
@@ -376,7 +378,7 @@
     }
 
     .hero__dots span {
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: 0.26em;
       text-transform: uppercase;
       font-weight: 200;
@@ -598,6 +600,11 @@
       padding-bottom: 88px;
     }
 
+    .collection--limitadas {
+      background: linear-gradient(158deg, var(--blush) 0%, var(--rose) 45%, #F5A8C6 100%);
+      padding-top: 64px;
+    }
+
     .collection__head {
       display: flex;
       justify-content: space-between;
@@ -608,7 +615,7 @@
     }
 
     .collection__head-link {
-      font-size: 9.5px;
+      font-size: 11px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--deep-rose);
@@ -634,10 +641,7 @@
       position: relative;
       overflow: hidden;
       cursor: pointer;
-    }
-
-    .product:first-child {
-      grid-column: 1 / -1;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .product__thumb {
@@ -647,18 +651,76 @@
       overflow: hidden;
     }
 
-    .product:first-child .product__thumb {
-      aspect-ratio: 4/3;
+    .product__carousel {
+      display: flex;
+      gap: 3px;
+      width: 100%;
+      height: 100%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .product__carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .product__carousel img {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      scroll-snap-align: start;
+      display: block;
+      transition: transform 0.65s var(--ease);
+      border: 1px solid rgba(242, 204, 201, 0.4);
+      box-sizing: border-box;
+    }
+
+    .product:hover .product__carousel img {
+      transform: scale(1.05);
+    }
+
+    .product__indicators {
+      position: absolute;
+      bottom: 12px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .product__indicator {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      transition: background 0.3s, width 0.3s;
+    }
+
+    .product__indicator.active {
+      background: var(--white);
+      width: 14px;
+      border-radius: 3px;
     }
 
     .product__bg {
       width: 100%;
       height: 100%;
-      position: relative;
+      position: absolute;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: transform 0.65s var(--ease);
+      z-index: 0;
     }
 
     .product:hover .product__bg {
@@ -696,12 +758,14 @@
     .product__hover {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(28, 11, 19, 0.72) 0%, transparent 55%);
+      background: linear-gradient(to top, rgba(28, 11, 19, 0.8) 0%, rgba(28, 11, 19, 0.15) 100%);
       opacity: 0;
       transition: opacity 0.4s var(--ease);
       display: flex;
       align-items: flex-end;
       padding: 18px 16px;
+      z-index: 2;
+      pointer-events: none;
     }
 
     .product:hover .product__hover {
@@ -709,11 +773,155 @@
     }
 
     .product__hover-label {
-      font-size: 9.5px;
+      font-size: 11px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: white;
       font-weight: 200;
+    }
+
+    /* ===========================================
+       MODAL POPUP
+    =========================================== */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s var(--ease);
+    }
+
+    .modal.is-open {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .modal__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(28, 11, 19, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .modal__content {
+      position: relative;
+      background: var(--cream);
+      width: 88%;
+      max-width: 440px;
+      max-height: 90vh;
+      border-radius: 8px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(20px) scale(0.95);
+      transition: transform 0.4s var(--ease);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal.is-open .modal__content {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal__close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      color: var(--dark);
+      transition: background 0.3s;
+    }
+
+    .modal__close:hover {
+      background: var(--white);
+    }
+
+    .modal__gallery {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--cream);
+      overflow: hidden;
+    }
+
+    .modal__info {
+      padding: 24px;
+      text-align: center;
+    }
+
+    .modal__title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      line-height: 1.1;
+      font-weight: 300;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .modal__price {
+      font-size: 16px;
+      color: var(--plum);
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+
+    .modal__sizes {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .modal__sizes-label {
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .modal__sizes-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .modal-size-btn {
+      background: transparent;
+      border: 1px solid rgba(166, 70, 119, 0.4);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 11px;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+      outline: none;
+    }
+
+    .modal-size-btn:hover {
+      border-color: var(--plum);
+      color: var(--plum);
+    }
+
+    .modal-size-btn.is-selected {
+      background: var(--plum);
+      color: var(--white);
+      border-color: var(--plum);
+      box-shadow: 0 4px 12px rgba(166, 70, 119, 0.25);
     }
 
     .product__info {
@@ -728,7 +936,7 @@
     }
 
     .product__detail {
-      font-size: 9.5px;
+      font-size: 11px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--deep-rose);
@@ -923,7 +1131,7 @@
     }
 
     .testimonial__name {
-      font-size: 10.5px;
+      font-size: 12px;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--plum);
@@ -931,7 +1139,7 @@
     }
 
     .testimonial__role {
-      font-size: 10px;
+      font-size: 11.5px;
       color: var(--deep-rose);
       margin-top: 2px;
       font-weight: 200;
@@ -940,7 +1148,7 @@
     .testimonial__stars {
       margin-left: auto;
       color: var(--pink);
-      font-size: 10px;
+      font-size: 11.5px;
       letter-spacing: 2px;
     }
 
@@ -1049,7 +1257,7 @@
     }
 
     .footer__tagline {
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: 0.28em;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.28);
@@ -1065,7 +1273,7 @@
     }
 
     .footer__nav a {
-      font-size: 9.5px;
+      font-size: 11px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.32);
@@ -1109,167 +1317,10 @@
     }
 
     .footer__copy {
-      font-size: 9.5px;
+      font-size: 11px;
       letter-spacing: 0.12em;
       color: rgba(255, 255, 255, 0.18);
       font-weight: 200;
-    }
-
-    /* ===========================================
-       VITRINE (CAROUSEL)
-    =========================================== */
-    .vitrine {
-      background: var(--white);
-      padding: 88px 0;
-      overflow: hidden;
-    }
-
-    .vitrine__head {
-      padding: 0 28px;
-      max-width: var(--max-w);
-      margin: 0 auto 40px;
-    }
-
-    .vitrine__title {
-      font-size: clamp(32px, 9vw, 44px);
-    }
-
-    .vitrine__track {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding: 0 28px;
-    }
-
-    .vitrine__track::-webkit-scrollbar {
-      display: none;
-    }
-
-    .vitrine__card {
-      flex: 0 0 76vw;
-      max-width: 300px;
-      scroll-snap-align: start;
-      cursor: pointer;
-    }
-
-    .vitrine__img {
-      width: 100%;
-      aspect-ratio: 3/4;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .vitrine__img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.65s var(--ease);
-    }
-
-    .vitrine__card:hover .vitrine__img img {
-      transform: scale(1.04);
-    }
-
-    .vitrine__placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      transition: transform 0.65s var(--ease);
-    }
-
-    .vitrine__card:hover .vitrine__placeholder {
-      transform: scale(1.04);
-    }
-
-    .vitrine__placeholder::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-      background-size: 18px 18px;
-    }
-
-    .vitrine__placeholder::after {
-      content: '✦';
-      font-size: 22px;
-      color: rgba(255, 255, 255, 0.22);
-    }
-
-    .vitrine__card:nth-child(1) .vitrine__placeholder {
-      background: linear-gradient(145deg, #F2CCC9 0%, #CC5693 100%);
-    }
-
-    .vitrine__card:nth-child(2) .vitrine__placeholder {
-      background: linear-gradient(155deg, #F2BDBD 0%, #FA69B4 100%);
-    }
-
-    .vitrine__card:nth-child(3) .vitrine__placeholder {
-      background: linear-gradient(140deg, #FA69B4 0%, #A64677 100%);
-    }
-
-    .vitrine__card:nth-child(4) .vitrine__placeholder {
-      background: linear-gradient(150deg, #F2CCC9 0%, #FA69B4 100%);
-    }
-
-    .vitrine__card:nth-child(5) .vitrine__placeholder {
-      background: linear-gradient(135deg, #F2BDBD 0%, #A64677 100%);
-    }
-
-    .vitrine__card:nth-child(6) .vitrine__placeholder {
-      background: linear-gradient(160deg, #CC5693 0%, #1C0B13 100%);
-    }
-
-    .vitrine__caption {
-      padding: 14px 0 6px;
-    }
-
-    .vitrine__caption-name {
-      font-family: var(--font-display);
-      font-size: 17px;
-      font-weight: 300;
-      color: var(--text);
-    }
-
-    .vitrine__caption-tag {
-      font-size: 9.5px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--deep-rose);
-      margin-top: 4px;
-      font-weight: 200;
-    }
-
-    .vitrine__dots {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 32px;
-      padding: 0 28px;
-    }
-
-    .vitrine__dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--blush);
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      transition: background 0.3s, width 0.3s, border-radius 0.3s;
-    }
-
-    .vitrine__dot.active {
-      background: var(--plum);
-      width: 20px;
-      border-radius: 3px;
     }
   </style>
 </head>
@@ -1283,7 +1334,7 @@
     <img src="src/static/images/logo.png" alt="Diva's Crochê" class="header__logo">
     <nav class="header__nav">
       <a href="#colecao">Coleção</a>
-      <a href="#vitrine">Vitrine</a>
+      <a href="#limitadas">Edição Limitada</a>
       <a href="#contato">Contato</a>
     </nav>
   </header>
@@ -1314,7 +1365,7 @@
       </p>
 
       <div class="hero__cta">
-        <a href="#colecao" class="btn btn--solid">Ver Coleção</a>
+        <a href="#limitadas" class="btn btn--solid">Ver Coleção</a>
       </div>
     </div>
 
@@ -1329,16 +1380,18 @@
 
       <span class="label-tag reveal">Nossa História</span>
       <h2 class="display about__title reveal d1">
-        Arte que<br><em>abraça</em><br>quem você é
+        Sejam<br><em>Bem Vindas!</em>
       </h2>
       <div class="about__line reveal d2"></div>
       <p class="about__body reveal d3">
-        A Diva's Crochê nasceu do amor pelas texturas, pelos fios e pelo poder transformador do artesanato. Cada peça é
-        criada com dedicação — porque acreditamos que moda pode ser arte, e arte pode ser moda.
+        A Diva's Crochê nasceu da paixão por transformar fios em arte. O que começou como um hobby terapêutico,
+        floresceu e hoje é minha marca e profissão.
+        Criamos peças 100% manuais para mulheres que desejam se sentir autênticas e poderosas, verdadeiras divas!
       </p>
       <p class="about__body reveal d4">
-        Trabalhamos exclusivamente sob encomenda, garantindo que cada cliente receba uma peça verdadeiramente única,
-        pensada para o seu corpo e para a sua personalidade.
+        Unimos o cuidado do artesanato à sofisticação do design moderno. Cada ponto carrega amor, dedicação e a
+        exclusividade que você merece.
+        Explore nosso universo e vista-se de poesia feita à mão!
       </p>
 
       <div class="about__metrics reveal d5">
@@ -1361,148 +1414,38 @@
   <!-- ========================
        COLLECTION
   ======================== -->
+  <section class="collection collection--limitadas" id="limitadas">
+    <div class="collection__head">
+      <div>
+        <span class="label-tag reveal">Coleção</span>
+        <h2 class="display collection__title reveal d1">
+          Edições <em>Limitadas</em>
+        </h2>
+      </div>
+    </div>
+
+    <div class="collection__grid" id="collectionGridLimitadas">
+      <!-- Produtos da Edição Limitada injetados via JS -->
+    </div>
+  </section>
+
   <section class="collection" id="colecao">
     <div class="collection__head">
       <div>
         <span class="label-tag reveal">Coleção</span>
         <h2 class="display collection__title reveal d1">
-          Peças <em>únicas</em>
+          Peças <em>Únicas</em>
         </h2>
       </div>
-      <a href="#contato" class="collection__head-link reveal d2">Ver tudo</a>
     </div>
 
-    <div class="collection__grid">
-      <!-- Produto destaque -->
-      <div class="product reveal">
-        <div class="product__thumb">
-          <!--
-            SUBSTITUA o div abaixo pela tag <img> com a foto real:
-            <img src="src/static/images/produtos/copa/bandana-completa-br.jpeg" alt="Bandana Copa">
-          -->
-          <img src="src/static/images/produtos/copa/top-branco.jpeg" alt="Top Branco Copa">
-          <div class="product__bg"></div>
-          <a class="product__hover" href="#contato">
-            <span class="product__hover-label">Encomendar</span>
-          </a>
-        </div>
-        <div class="product__info">
-          <div class="product__name">Top Branco Copa</div>
-          <div class="product__detail">EXCLUSIVO Copa 2026 · Sob encomenda</div>
-        </div>
-      </div>
-
-      <!-- Produto 2 -->
-      <div class="product reveal d2">
-        <div class="product__thumb">
-          <!--
-            <img src="src/static/images/foto-vestido.jpg" alt="Vestido Verão">
-          -->
-          <img src="src/static/images/produtos/copa/bandana-completa-azul.jpeg" alt="Bandana Copa Azul">
-          <div class="product__bg"></div>
-          <a class="product__hover" href="#contato">
-            <span class="product__hover-label">Encomendar</span>
-          </a>
-        </div>
-        <div class="product__info">
-          <div class="product__name">Bandana Azul</div>
-          <div class="product__detail">EXCLUSIVO Copa 2026 · Sob encomenda</div>
-        </div>
-      </div>
-
-      <!-- Produto 3 -->
-      <div class="product reveal d3">
-        <div class="product__thumb">
-          <!--
-            <img src="src/static/images/foto-cardigan.jpg" alt="Cardigan Floral">
-          -->
-          <img src="src/static/images/produtos/copa/bandana-completa-amarela.jpeg" alt="Bandana Copa Amarela">
-          <div class="product__bg"></div>
-          <a class="product__hover" href="#contato">
-            <span class="product__hover-label">Encomendar</span>
-          </a>
-        </div>
-        <div class="product__info">
-          <div class="product__name">Bandana Amarela</div>
-          <div class="product__detail">EXCLUSIVO Copa 2026 · Sob encomenda</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="collection__cta reveal">
-      <a href="#contato" class="btn btn--outline">Encomendar Peça</a>
+    <div class="collection__grid" id="collectionGridUnicas">
+      <!-- Produtos da coleção Única injetados via JS -->
     </div>
   </section>
 
-  <!-- ========================
-       VITRINE DIGITAL
-  ======================== -->
-  <section class="vitrine" id="vitrine">
-    <div class="vitrine__head">
-      <span class="label-tag reveal">Vitrine Digital</span>
-      <h2 class="display vitrine__title reveal d1">
-        Nossa <em>vitrine</em>
-      </h2>
-    </div>
 
-    <div class="vitrine__track" id="vitrineTrack">
-      <!--
-        Para adicionar fotos reais, substitua o bloco:
-          <div class="vitrine__img"><div class="vitrine__placeholder"></div></div>
-        por:
-          <div class="vitrine__img"><img src="src/static/images/vitrine/nome-da-foto.jpg" alt="Nome da peça"></div>
 
-        Coloque as fotos do carrossel em: src/static/images/vitrine/
-        Sugestão de nomes: vitrine-01.jpg, vitrine-02.jpg ...
-      -->
-      <div class="vitrine__card reveal">
-        <div class="vitrine__img"><img src="src/static/images/vitrine/bandana-completa-br.jpeg" alt="Bandanas"></div>
-        <div class="vitrine__caption">
-          <div class="vitrine__caption-name">Bandanas Personalizadas</div>
-          <div class="vitrine__caption-tag">EXCLUSIVO Copa do Mundo 2026</div>
-        </div>
-      </div>
-
-      <div class="vitrine__card reveal d1">
-        <div class="vitrine__img"><img src="src/static/images/vitrine/head-piece.jpeg" alt="Head Piece"></div>
-        <div class="vitrine__caption">
-          <div class="vitrine__caption-name">Head Piece</div>
-          <div class="vitrine__caption-tag">Crochê artesanal</div>
-        </div>
-      </div>
-
-      <div class="vitrine__card reveal d2">
-        <div class="vitrine__img"><img src="src/static/images/vitrine/top-verde.jpeg" alt="Top multicor"></div>
-        <div class="vitrine__caption">
-          <div class="vitrine__caption-name">Top multicor</div>
-          <div class="vitrine__caption-tag">Customizado</div>
-        </div>
-      </div>
-
-      <div class="vitrine__card reveal d3">
-        <div class="vitrine__img"><img src="src/static/images/vitrine/top-azul.jpeg" alt="Top azul"></div>
-        <div class="vitrine__caption">
-          <div class="vitrine__caption-name">Top azul</div>
-          <div class="vitrine__caption-tag">Crochê artesanal</div>
-        </div>
-      </div>
-
-      <div class="vitrine__card reveal d4">
-        <div class="vitrine__img"><img src="src/static/images/vitrine/top-laranja.jpeg" alt="Top multicor"></div>
-        <div class="vitrine__caption">
-          <div class="vitrine__caption-name">Top laranja</div>
-          <div class="vitrine__caption-tag">Crochê artesanal</div>
-        </div>
-      </div>
-
-      <div class="vitrine__dots" id="vitrineDots">
-        <button class="vitrine__dot active" data-index="0" aria-label="Foto 1"></button>
-        <button class="vitrine__dot" data-index="1" aria-label="Foto 2"></button>
-        <button class="vitrine__dot" data-index="2" aria-label="Foto 3"></button>
-        <button class="vitrine__dot" data-index="3" aria-label="Foto 4"></button>
-        <button class="vitrine__dot" data-index="4" aria-label="Foto 5"></button>
-      </div>
-  </section>
 
   <!-- ========================
        PROCESS
@@ -1578,22 +1521,6 @@
             <div class="testimonial__avatar">M</div>
             <div>
               <div class="testimonial__name">Mariana Costa</div>
-              <div class="testimonial__role">Cliente desde 2023</div>
-            </div>
-            <div class="testimonial__stars">★★★★★</div>
-          </div>
-        </div>
-
-        <div class="testimonial reveal d1">
-          <p class="testimonial__quote">
-            Usei o vestido na minha formatura e me senti única. Só crochê artesanal consegue esse resultado. Superou
-            todas as minhas expectativas.
-          </p>
-          <div class="testimonial__author">
-            <div class="testimonial__avatar">J</div>
-            <div>
-              <div class="testimonial__name">Juliana Ferreira</div>
-              <div class="testimonial__role">Formanda orgulhosa ♡</div>
             </div>
             <div class="testimonial__stars">★★★★★</div>
           </div>
@@ -1608,7 +1535,6 @@
             <div class="testimonial__avatar">A</div>
             <div>
               <div class="testimonial__name">Ana Luísa Rocha</div>
-              <div class="testimonial__role">Fã fiel da marca</div>
             </div>
             <div class="testimonial__stars">★★★★★</div>
           </div>
@@ -1636,7 +1562,9 @@
           SUBSTITUA "5500000000000" pelo número real no formato internacional:
           Ex.: 5511999887766 (55 = Brasil, 11 = DDD, número)
         -->
-        <a href="https://wa.link/siezlb" class="btn btn--dark btn--wide" target="_blank" rel="noopener noreferrer">
+        <a href="https://api.whatsapp.com/send?phone=5591985599731&text=Olá! Vim do Site da Diva's Crochê e gostaria de fazer um orçamento."
+          Olá! Vim do Instagram da Diva's Crochê e gostaria de fazer um orçamento. class="btn btn--dark btn--wide"
+          target="_blank" rel="noopener noreferrer">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path
               d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
@@ -1671,7 +1599,7 @@
     <nav class="footer__nav">
       <a href="#sobre">Sobre</a>
       <a href="#colecao">Coleção</a>
-      <a href="#vitrine">Vitrine</a>
+      <a href="#limitadas">Edição Limitada</a>
       <a href="#contato">Contato</a>
     </nav>
 
@@ -1715,6 +1643,47 @@
     <div class="scroll-needle__thread"></div>
   </div>
 
+  <!-- ========================
+       MODAL DE PRODUTO
+  ======================== -->
+  <div class="modal" id="productModal" aria-hidden="true">
+    <div class="modal__overlay" onclick="closeModal()"></div>
+    <div class="modal__content">
+      <button class="modal__close" onclick="closeModal()" aria-label="Fechar">&times;</button>
+
+      <div class="modal__gallery">
+        <div class="product__carousel modal__carousel" style="gap: 0;" id="modalCarouselTrack">
+          <!-- Imagens injetadas via JS -->
+        </div>
+        <div class="product__indicators" id="modalIndicators">
+          <!-- Indicadores injetados via JS -->
+        </div>
+      </div>
+
+      <div class="modal__info">
+        <h3 class="modal__title" id="modalTitle">Nome do Produto</h3>
+        <p class="modal__price" id="modalPrice">R$ 0,00</p>
+
+        <div class="modal__sizes">
+          <span class="modal__sizes-label">Selecione o Tamanho:</span>
+          <div class="modal__sizes-options" id="modalSizesOptions">
+            <!-- Botões injetados via JS -->
+          </div>
+        </div>
+
+        <div class="modal__action">
+          <a href="#" class="btn btn--solid btn--wide" id="modalBtnEncomendar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+            Encomendar Peça
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Scroll reveal
     const revealEls = document.querySelectorAll('.reveal');
@@ -1744,27 +1713,269 @@
       }
     }, { passive: true });
 
-    // ---- Vitrine carousel dots ----
-    const vitrineTrack = document.getElementById('vitrineTrack');
-    const vitrineDots = document.querySelectorAll('.vitrine__dot');
 
-    if (vitrineTrack && vitrineDots.length) {
-      vitrineDots.forEach(dot => {
-        dot.addEventListener('click', () => {
-          const idx = parseInt(dot.dataset.index);
-          const card = vitrineTrack.children[idx];
-          vitrineTrack.scrollTo({ left: card.offsetLeft - 28, behavior: 'smooth' });
+
+    // ---- Product Configuration & Rendering ----
+    const produtosCol = [
+      {
+        nome: "Cropped Frente Única",
+        detalhes: "EXCLUSIVO Copa 2026 · Sob encomenda",
+        tamanhos: "PP, P, M, G",
+        preco: "A partir de R$ 79,90",
+        colecao: "Limitada",
+        imagens: [
+          "src/static/images/produtos/colecao-copa/cropped-frente-unica-azul.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-frente-unica-amarelo.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-frente-unica-verde.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-frente-unica-branco.jpeg"
+        ]
+      },
+      {
+        nome: "Cropped Brasilidade",
+        detalhes: "EXCLUSIVO Copa 2026 · Sob encomenda",
+        tamanhos: "P, M, G",
+        preco: "A partir de R$ 79,90",
+        colecao: "Limitada",
+        imagens: [
+          "src/static/images/produtos/colecao-copa/cropped-brasilidade-1.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-brasilidade-2.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-brasilidade-3.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-brasilidade-4.jpeg"
+        ]
+      },
+      {
+        nome: "Bandana Multiformas",
+        detalhes: "EXCLUSIVO Copa 2026 · Sob encomenda",
+        tamanhos: "P, M, G",
+        preco: "A partir de R$ 89,90",
+        colecao: "Limitada",
+        imagens: [
+          "src/static/images/produtos/colecao-copa/bandana-multiformas-1.jpeg",
+          "src/static/images/produtos/colecao-copa/bandana-multiformas-2.jpeg",
+          "src/static/images/produtos/colecao-copa/bandana-multiformas-3.jpeg"]
+      },
+      {
+        nome: "Top Faixa",
+        detalhes: "EXCLUSIVO Copa 2026 · Sob encomenda",
+        tamanhos: "P, M, G",
+        preco: "A partir de R$ 59,90",
+        colecao: "Limitada",
+        imagens: [
+          "src/static/images/produtos/colecao-copa/top-faixa-1.jpeg",
+          "src/static/images/produtos/colecao-copa/top-faixa-2.jpeg",
+          "src/static/images/produtos/colecao-copa/top-faixa-3.jpeg"]
+      },
+      {
+        nome: "Blusa em Tricot",
+        detalhes: "EXCLUSIVO Copa 2026 · Sob encomenda",
+        tamanhos: "Tamanho Único",
+        preco: "A partir de R$ 99,90",
+        colecao: "Limitada",
+        imagens: [
+          "src/static/images/produtos/colecao-copa/blusa-tricot-1.jpeg",
+          "src/static/images/produtos/colecao-copa/blusa-tricot-2.jpeg",
+          "src/static/images/produtos/colecao-copa/blusa-tricot-3.jpeg",
+          "src/static/images/produtos/colecao-copa/blusa-tricot-4.jpeg",
+          "src/static/images/produtos/colecao-copa/blusa-tricot-5.jpeg",
+          "src/static/images/produtos/colecao-copa/blusa-tricot-6.jpeg"]
+      },
+      {
+        nome: "Headpiece",
+        detalhes: "",
+        tamanhos: "Tamanho Único",
+        preco: "A partir de R$ 29,90",
+        colecao: "Única",
+        imagens: [
+          "src/static/images/produtos/headpiece-1.jpeg",
+          "src/static/images/produtos/headpiece-2.jpeg",
+          "src/static/images/produtos/headpiece-3.jpeg",
+          "src/static/images/produtos/headpiece-4.jpeg",
+        ]
+      },
+      {
+        nome: "Cropped Colors",
+        detalhes: "",
+        tamanhos: "P, M, G",
+        preco: "A partir de R$ 49,90",
+        colecao: "Única",
+        imagens: [
+          "src/static/images/produtos/cropped-colors-4.jpeg",
+          "src/static/images/produtos/cropped-colors-1.jpeg",
+          "src/static/images/produtos/cropped-colors-2.jpeg",
+          "src/static/images/produtos/cropped-colors-3.jpeg",
+          "src/static/images/produtos/cropped-colors-5.jpeg",
+          "src/static/images/produtos/cropped-colors-6.jpeg"
+        ]
+      }
+    ];
+
+    function renderizarProdutos() {
+      const gridUnicas = document.getElementById('collectionGridUnicas');
+      const gridLimitadas = document.getElementById('collectionGridLimitadas');
+
+      if (gridUnicas) gridUnicas.innerHTML = '';
+      if (gridLimitadas) gridLimitadas.innerHTML = '';
+
+      produtosCol.forEach((prod, index) => {
+        // Efeito de delay de entrada na rolagem
+        const delayClass = index === 0 ? '' : ' d' + Math.min(index, 3);
+
+        let imagensHTML = '';
+        let indicatorsHTML = '';
+
+        prod.imagens.forEach((imgSrc, i) => {
+          const loadingAttr = i === 0 && index < 2 ? '' : ' loading="lazy"';
+          imagensHTML += `<img src="${imgSrc}" alt="${prod.nome}"${loadingAttr}>`;
+          indicatorsHTML += `<div class="product__indicator${i === 0 ? ' active' : ''}"></div>`;
         });
+
+        const indicatorsDisplay = prod.imagens.length > 1 ? '' : ' style="display: none;"';
+
+        const cardHTML = `
+          <div class="product reveal${delayClass}" data-title="${prod.nome}" data-price="${prod.preco}" data-sizes="${prod.tamanhos}" onclick="openModal(this)">
+            <div class="product__thumb">
+              <div class="product__carousel">
+                ${imagensHTML}
+              </div>
+              <div class="product__indicators"${indicatorsDisplay}>
+                ${indicatorsHTML}
+              </div>
+              <div class="product__bg"></div>
+              <div class="product__hover">
+                <span class="product__hover-label">Ver Detalhes</span>
+              </div>
+            </div>
+            <div class="product__info">
+              <div class="product__name">${prod.nome}</div>
+              <div class="product__detail">${prod.detalhes}</div>
+            </div>
+          </div>
+        `;
+
+        const targetGrid = prod.colecao === 'Limitada' ? gridLimitadas : gridUnicas;
+        if (targetGrid) {
+          targetGrid.insertAdjacentHTML('beforeend', cardHTML);
+        }
       });
 
-      vitrineTrack.addEventListener('scroll', () => {
-        const cardW = vitrineTrack.children[0].offsetWidth + 12;
-        const idx = Math.round(vitrineTrack.scrollLeft / cardW);
-        vitrineDots.forEach((d, i) => d.classList.toggle('active', i === idx));
-      }, { passive: true });
+      // Re-ativa o observer pros novos elementos gerados
+      const newReveals = document.querySelectorAll('.collection .reveal');
+      newReveals.forEach(el => observer.observe(el));
     }
-  </script>
 
+    renderizarProdutos();
+
+    // ---- Product Carousels & Modal ----
+    function initCarousels(scope = document) {
+      const productCarousels = scope.querySelectorAll('.product__carousel');
+      productCarousels.forEach(carousel => {
+        const indicatorsContainer = carousel.parentElement.querySelector('.product__indicators');
+        if (indicatorsContainer) {
+          const indicators = indicatorsContainer.querySelectorAll('.product__indicator');
+          carousel.addEventListener('scroll', () => {
+            const w = carousel.offsetWidth;
+            const idx = Math.round(carousel.scrollLeft / w);
+            indicators.forEach((d, i) => d.classList.toggle('active', i === idx));
+          }, { passive: true });
+        }
+      });
+    }
+    initCarousels();
+
+    const productModal = document.getElementById('productModal');
+    const modalCarouselTrack = document.getElementById('modalCarouselTrack');
+    const modalIndicators = document.getElementById('modalIndicators');
+
+    function openModal(cardElement) {
+      // Prevent open if clicking on the indicators, wait JS event is accessed cleanly this way:
+      const e = window.event;
+      if (e && e.target.classList.contains('product__indicator')) return;
+
+      const title = cardElement.getAttribute('data-title');
+      const price = cardElement.getAttribute('data-price');
+      const sizes = cardElement.getAttribute('data-sizes');
+      const imgs = cardElement.querySelectorAll('.product__carousel img');
+
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalPrice').textContent = price;
+
+      const modalSizesOptions = document.getElementById('modalSizesOptions');
+      modalSizesOptions.innerHTML = '';
+      let selectedSize = null;
+
+      const sizesArray = sizes ? sizes.split(',').map(s => s.trim()) : [];
+      sizesArray.forEach(size => {
+        const btn = document.createElement('button');
+        btn.className = 'modal-size-btn';
+        btn.textContent = size;
+        btn.onclick = () => {
+          modalSizesOptions.querySelectorAll('.modal-size-btn').forEach(b => b.classList.remove('is-selected'));
+          btn.classList.add('is-selected');
+          selectedSize = size;
+        };
+        modalSizesOptions.appendChild(btn);
+      });
+
+      if (sizesArray.length === 1) {
+        const firstBtn = modalSizesOptions.querySelector('.modal-size-btn');
+        if (firstBtn) firstBtn.click();
+      }
+
+      const btnEncomendar = document.getElementById('modalBtnEncomendar');
+      btnEncomendar.onclick = (e) => {
+        e.preventDefault();
+        if (sizesArray.length > 0 && !selectedSize) {
+          alert('Por favor, selecione um tamanho antes de fazer a encomenda.');
+          return;
+        }
+
+        const sizeText = selectedSize ? ` no tamanho ${selectedSize}` : '';
+        const message = `Olá! Vim do Site da Diva's Crochê e gostaria de fazer a encomenda da peça ${title}${sizeText}.`;
+
+        const url = `https://api.whatsapp.com/send?phone=5591985599731&text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+        closeModal();
+      };
+
+      modalCarouselTrack.innerHTML = '';
+      modalIndicators.innerHTML = '';
+
+      imgs.forEach((img, index) => {
+        const newImg = document.createElement('img');
+        newImg.src = img.src;
+        newImg.alt = img.alt || '';
+        newImg.style.border = 'none'; // Overriding the border for modal usage so it looks fullscreen
+        modalCarouselTrack.appendChild(newImg);
+
+        const dot = document.createElement('div');
+        dot.className = 'product__indicator' + (index === 0 ? ' active' : '');
+        modalIndicators.appendChild(dot);
+      });
+
+      if (imgs.length <= 1) {
+        modalIndicators.style.display = 'none';
+      } else {
+        modalIndicators.style.display = 'flex';
+      }
+
+      productModal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+
+      initCarousels(productModal);
+      modalCarouselTrack.scrollLeft = 0;
+    }
+
+    function closeModal() {
+      productModal.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && productModal.classList.contains('is-open')) {
+        closeModal();
+      }
+    });
+  </script>
 </body>
 
 </html>
