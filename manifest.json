@@ -1,0 +1,21 @@
+{
+  "name": "Diva's Crochê",
+  "short_name": "Diva's",
+  "description": "Peças artesanais exclusivas feitas à mão com amor e dedicação.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FDFAF9",
+  "theme_color": "#FDFAF9",
+  "icons": [
+    {
+      "src": "src/static/images/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "src/static/images/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

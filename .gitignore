@@ -15,3 +15,6 @@ desktop.ini
 .idea/
 *.swp
 *.swo
+
+# Imagens de Backup
+src/static/images/produtos/backup/

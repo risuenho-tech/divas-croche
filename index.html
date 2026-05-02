@@ -8,6 +8,18 @@
   <meta name="description"
     content="Peças artesanais de crochê, feitas à mão com amor e dedicação. Moda feminina exclusiva, sob encomenda.">
 
+  <!-- Open Graph / WhatsApp / Redes Sociais -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://divascroche.risuenho.com">
+  <meta property="og:title" content="Diva's Crochê — Peças Artesanais Femininas">
+  <meta property="og:description" content="Peças exclusivas de crochê feitas à mão com amor. Moda feminina artesanal.">
+  <meta property="og:image" content="https://divascroche.risuenho.com/src/static/images/favicon.png">
+
+  <!-- PWA & Mobile Experience -->
+  <meta name="theme-color" content="#FDFAF9">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="src/static/images/favicon.png">
+
   <link rel="icon" type="image/png" href="src/static/images/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -114,6 +126,8 @@
         transform 0.35s var(--ease), box-shadow 0.35s var(--ease),
         border-color 0.35s var(--ease);
       cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
     .btn--solid {
@@ -663,6 +677,7 @@
       position: absolute;
       inset: 0;
       z-index: 1;
+      touch-action: pan-y;
     }
 
     .product__carousel::-webkit-scrollbar {
@@ -905,11 +920,20 @@
       color: var(--text);
       font-family: var(--font-body);
       font-size: 11px;
-      padding: 8px 14px;
+      padding: 12px 18px;
+      /* Aumentado para melhor toque no mobile */
+      min-width: 44px;
+      /* Tap target mínimo recomendado pela Apple */
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border-radius: 4px;
       cursor: pointer;
       transition: all 0.3s var(--ease);
       outline: none;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
     .modal-size-btn:hover {
@@ -1453,7 +1477,7 @@
       <div>
         <span class="label-tag reveal">Coleção</span>
         <h2 class="display collection__title reveal d1">
-          Peças <em>Únicas</em>
+          Acessórios <em>Exclusivos</em>
         </h2>
       </div>
     </div>
@@ -1582,8 +1606,7 @@
           Ex.: 5511999887766 (55 = Brasil, 11 = DDD, número)
         -->
         <a href="https://api.whatsapp.com/send?phone=5591985599731&text=Olá! Vim do Site da Diva's Crochê e gostaria de fazer um orçamento."
-          Olá! Vim do Instagram da Diva's Crochê e gostaria de fazer um orçamento. class="btn btn--dark btn--wide"
-          target="_blank" rel="noopener noreferrer">
+          class="btn btn--dark btn--wide" target="_blank" rel="noopener noreferrer">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path
               d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
@@ -1743,24 +1766,101 @@
         preco: "A partir de R$ 79,90",
         colecao: "Limitada",
         imagens: [
-          "src/static/images/produtos/colecao-copa/cropped-frente-unica-azul.jpeg",
-          "src/static/images/produtos/colecao-copa/cropped-frente-unica-amarelo.jpeg",
           "src/static/images/produtos/colecao-copa/cropped-frente-unica-verde.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-frente-unica-amarelo.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-frente-unica-azul.jpeg",
           "src/static/images/produtos/colecao-copa/cropped-frente-unica-branco.jpeg"
         ]
       },
       {
-        nome: "Cropped Brasilidade",
+        nome: "Top Faixa",
+        detalhes: "EXCLUSIVO Copa 2026 · Sob encomenda",
+        tamanhos: "P, M, G",
+        preco: "A partir de R$ 69,90",
+        colecao: "Limitada",
+        imagens: [
+          "src/static/images/produtos/colecao-copa/top-faixa-branco.jpeg",
+          "src/static/images/produtos/colecao-copa/top-faixa-azul.jpeg",
+          "src/static/images/produtos/colecao-copa/top-faixa-amarelo.jpeg",
+          "src/static/images/produtos/colecao-copa/top-faixa-verde.jpeg",
+          "src/static/images/produtos/colecao-copa/top-faixa-brasil.jpeg"]
+      },
+      {
+        nome: "Cropped Brasil",
+        detalhes: "EXCLUSIVO Copa 2026 · Sob encomenda",
+        tamanhos: "P, M, G",
+        preco: "A partir de R$ 69,90",
+        colecao: "Limitada",
+        imagens: [
+          "src/static/images/produtos/colecao-copa/cropped-brasil-azul.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-brasil-branco.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-brasil-amarelo.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-brasil-verde.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-brasil.jpeg"]
+      },
+      {
+        nome: "Cropped Oasis",
+        detalhes: "EXCLUSIVO Copa 2026 · Sob encomenda",
+        tamanhos: "P, M, G",
+        preco: "A partir de R$ 69,90",
+        colecao: "Limitada",
+        imagens: [
+          "src/static/images/produtos/colecao-copa/cropped-oasis-1.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-oasis-2.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-oasis-3.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-oasis-4.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-oasis-5.jpeg"]
+      },
+      {
+        nome: "Cropped Brisa",
         detalhes: "EXCLUSIVO Copa 2026 · Sob encomenda",
         tamanhos: "P, M, G",
         preco: "A partir de R$ 79,90",
         colecao: "Limitada",
         imagens: [
-          "src/static/images/produtos/colecao-copa/cropped-brasilidade-1.jpeg",
-          "src/static/images/produtos/colecao-copa/cropped-brasilidade-2.jpeg",
-          "src/static/images/produtos/colecao-copa/cropped-brasilidade-3.jpeg",
-          "src/static/images/produtos/colecao-copa/cropped-brasilidade-4.jpeg"
-        ]
+          "src/static/images/produtos/colecao-copa/cropped-brisa-amarelo.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-brisa-branco.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-brisa-azul.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-brisa-azul-e-branco.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-brisa-verde.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-brisa-verde-e-amarelo.jpeg"]
+      },
+      {
+        nome: "Cropped Trama",
+        detalhes: "EXCLUSIVO Copa 2026 · Sob encomenda",
+        tamanhos: "P, M, G",
+        preco: "A partir de R$ 79,90",
+        colecao: "Limitada",
+        imagens: [
+          "src/static/images/produtos/colecao-copa/cropped-trama-azul.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-trama-branco.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-trama-verde.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-trama-amarelo.jpeg"]
+      },
+      {
+        nome: "Top Canarinho",
+        detalhes: "EXCLUSIVO Copa 2026 · Sob encomenda",
+        tamanhos: "P, M, G",
+        preco: "A partir de R$ 99,90",
+        colecao: "Limitada",
+        imagens: [
+          "src/static/images/produtos/colecao-copa/top-canarinho-verde.jpeg",
+          "src/static/images/produtos/colecao-copa/top-canarinho-azul.jpeg",
+          "src/static/images/produtos/colecao-copa/top-canarinho-amarelo.jpeg",
+          "src/static/images/produtos/colecao-copa/top-canarinho-branco.jpeg",
+          "src/static/images/produtos/colecao-copa/top-canarinho-brasil.jpeg"]
+      },
+      {
+        nome: "Vestido Copa",
+        detalhes: "EXCLUSIVO Copa 2026 · Sob encomenda",
+        tamanhos: "P, M, G",
+        preco: "A partir de R$ 179,90",
+        colecao: "Limitada",
+        imagens: [
+          "src/static/images/produtos/colecao-copa/vestido-copa-amarelo.jpeg",
+          "src/static/images/produtos/colecao-copa/vestido-copa-azul.jpeg",
+          "src/static/images/produtos/colecao-copa/vestido-copa-verde.jpeg",
+          "src/static/images/produtos/colecao-copa/vestido-copa-branco.jpeg"]
       },
       {
         nome: "Bandana Multiformas",
@@ -1771,18 +1871,21 @@
         imagens: [
           "src/static/images/produtos/colecao-copa/bandana-multiformas-1.jpeg",
           "src/static/images/produtos/colecao-copa/bandana-multiformas-2.jpeg",
-          "src/static/images/produtos/colecao-copa/bandana-multiformas-3.jpeg"]
+          "src/static/images/produtos/colecao-copa/bandana-multiformas-3.jpeg",
+          "src/static/images/produtos/colecao-copa/bandana-multiformas-4.jpeg"]
       },
       {
-        nome: "Top Faixa",
+        nome: "Cropped Brasilidade",
         detalhes: "EXCLUSIVO Copa 2026 · Sob encomenda",
         tamanhos: "P, M, G",
-        preco: "A partir de R$ 69,90",
+        preco: "A partir de R$ 79,90",
         colecao: "Limitada",
         imagens: [
-          "src/static/images/produtos/colecao-copa/top-faixa-1.jpeg",
-          "src/static/images/produtos/colecao-copa/top-faixa-2.jpeg",
-          "src/static/images/produtos/colecao-copa/top-faixa-3.jpeg"]
+          "src/static/images/produtos/colecao-copa/cropped-brasilidade-2.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-brasilidade-1.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-brasilidade-3.jpeg",
+          "src/static/images/produtos/colecao-copa/cropped-brasilidade-4.jpeg"
+        ]
       },
       {
         nome: "Blusa em Tricot",
@@ -1803,7 +1906,7 @@
         detalhes: "",
         tamanhos: "Tamanho Único",
         preco: "A partir de R$ 29,90",
-        colecao: "Única",
+        colecao: "Acessórios",
         imagens: [
           "src/static/images/produtos/headpiece-1.jpeg",
           "src/static/images/produtos/headpiece-2.jpeg",
@@ -1812,11 +1915,21 @@
         ]
       },
       {
+        nome: "Chapéu Bucket Brasil",
+        detalhes: "",
+        tamanhos: "Tamanho Único",
+        preco: "A partir de R$ 49,90",
+        colecao: "Acessórios",
+        imagens: [
+          "src/static/images/produtos/colecao-copa/chapeu-bucket-brasil.jpeg",
+        ]
+      },
+      {
         nome: "Cropped Colors",
         detalhes: "",
         tamanhos: "P, M, G",
         preco: "A partir de R$ 49,90",
-        colecao: "Única",
+        colecao: "Limitada",
         imagens: [
           "src/static/images/produtos/cropped-colors-4.jpeg",
           "src/static/images/produtos/cropped-colors-1.jpeg",
